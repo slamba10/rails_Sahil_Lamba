@@ -6,9 +6,9 @@ This project automates the setup of a development environment for working with R
 
 ## Requirements
 
-* [VirtualBox](https://www.virtualbox.org) or [VMWare Fusion](http://www.vmware.com/products/fusion) or [Parallels Desktop](http://www.parallels.com/products/desktop/)(need Vagrant 1.5+, see [vagrant-parallels](http://parallels.github.io/vagrant-parallels/docs/installation/index.html))
+* [VirtualBox](https://www.virtualbox.org)
 
-* [Vagrant 1.1+](http://vagrantup.com) (not a Ruby gem)
+* [Vagrant](http://vagrantup.com)
 
 ## How To Build The Virtual Machine
 
@@ -20,38 +20,40 @@ Building the virtual machine is this easy:
 
 That's it.
 
-(If you want to use VMWare Fusion instead of VirtualBox, write `vagrant up --provider=vmware_fusion` instead of `vagrant up` when building the VM for the first time. After that, Vagrant will remember your provider choice, and you won't need to include the `provider` flag again.)
-
-(If you want to use Parallels Desktop instead of VirtualBox, you need Vagrant 1.5+, and write `vagrant up --provider=parallels` instead of `vagrant up` when building the VM for the first time. After that, Vagrant will remember your provider choice, and you won't need to include the `provider` flag again.)
-
-If the base box is not present that command fetches it first. The setup itself takes about 3 minutes in my MacBook Air. After the installation has finished, you can access the virtual machine with
+After the installation has finished, you can access the virtual machine with
 
     host $ vagrant ssh
-    Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+    Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.13.0-55-generic x86_64)
     ...
     vagrant@rails-dev-box:~$
 
-Port 3000 in the host computer is forwarded to port 3000 in the virtual machine. Thus, applications running in the virtual machine can be accessed via localhost:3000 in the host computer.
+Port 3000 in the host computer is forwarded to port 3000 in the virtual machine. Thus, applications running in the virtual machine can be accessed via localhost:3000 in the host computer. Be sure the web server is bound to the IP 0.0.0.0, instead of 127.0.0.1, so it can access all interfaces:
+
+    bin/rails server -b 0.0.0.0
 
 ## What's In The Box
 
+* Development tools
+
 * Git
 
-* RVM
-
-* Ruby 2.1.1 (binary RVM install)
+* Ruby 2.2
 
 * Bundler
 
 * SQLite3, MySQL, and Postgres
 
-* System dependencies for nokogiri, sqlite3, mysql, mysql2, and pg
-
 * Databases and users needed to run the Active Record test suite
 
-* Node.js for the asset pipeline
+* System dependencies for nokogiri, sqlite3, mysql, mysql2, and pg
 
 * Memcached
+
+* Redis
+
+* RabbitMQ
+
+* An ExecJS runtime
 
 ## Recommended Workflow
 
@@ -64,13 +66,13 @@ The recommended workflow is
 Just clone your Rails fork into the rails-dev-box directory on the host computer:
 
     host $ ls
-    README.md   Vagrantfile puppet
+    bootstrap.sh MIT-LICENSE README.md Vagrantfile
     host $ git clone git@github.com:<your username>/rails.git
 
 Vagrant mounts that directory as _/vagrant_ within the virtual machine:
 
     vagrant@rails-dev-box:~$ ls /vagrant
-    puppet  rails  README.md  Vagrantfile
+    bootstrap.sh MIT-LICENSE rails README.md Vagrantfile
 
 Install gem dependencies in there:
 
