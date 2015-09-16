@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # A Virtual Machine for Ruby on Rails
 
 ## Introduction
@@ -158,3 +159,8 @@ Released under the MIT License, Copyright (c) 2012–<i>ω</i> Ruby on Rails Dec
 
 ## Credits
 Based on https://github.com/rails/rails-dev-box
+=======
+# rails_Sahil_Lamba
+
+This is code for the Rails DeCal Homework Assignments
+>>>>>>> 20ac83bfefaee66acf445e6b03d19d18d465b125
